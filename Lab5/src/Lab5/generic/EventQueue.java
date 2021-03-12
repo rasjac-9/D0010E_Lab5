@@ -66,7 +66,6 @@ public class EventQueue {
 	public void removeFirstEvent() {
 		if (!isEmpty()) {
 			eventList.remove(0);
-			sortEvent();
 		}
 	}
 

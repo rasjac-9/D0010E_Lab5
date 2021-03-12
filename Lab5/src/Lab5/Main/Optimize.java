@@ -54,6 +54,7 @@ public class Optimize implements K {
 	public int[] GardinStänger(int fro) {
 		int MAX_reg = M;
 		int MIN_reg = 1;
+		
 		int TEST_reg = getHalf(MAX_reg, MIN_reg);
 
 		boolean beeanZero = false;
@@ -66,7 +67,7 @@ public class Optimize implements K {
 
 		while (true) {
 			PLEACE = Mood(fro, TEST_reg);
-			System.out.println(MIN_reg + ", " + MAX_reg + " | " + TEST_reg + " > " + PLEACE.getLostCustomer());
+//			System.out.println(MIN_reg + ", " + MAX_reg + " | " + TEST_reg + " > " + PLEACE.getLostCustomer());
 //			testTvå(PLEACE.getLostCustomer());
 
 			// checks if to many regs used
@@ -117,7 +118,9 @@ public class Optimize implements K {
 		while (true) {
 
 			int[] twoReg = GardinStänger(random.nextInt());
-			System.out.println(twoReg[0]);
+			
+			System.out.println(twoReg[0] + " || lost cuts: " + twoReg[1]);
+//			System.out.println(twoReg[0]);
 
 			if (twoReg[0] > worstReg) {
 
@@ -153,15 +156,15 @@ public class Optimize implements K {
 //		int[] arg = { SEED, 13 };
 //		System.out.print(op.Mood(SEED, 2).getLostCustomer());
 
-		Random random = new Random(SEED);
+//		Random random = new Random(SEED);
 //		Run only Metod II
 
-		for (int i = 0; i < 50; i++) {
-			int[] x = op.GardinStänger(random.nextInt());
-			System.out.println(x[0] + " || lost cuts: " + x[1]);
-		}
+//		for (int i = 0; i < 10; i++) {
+//			int[] x = op.GardinStänger(random.nextInt());
+//			System.out.println(x[0] + " || lost cuts: " + x[1]);
+//		}
 		
 //		Run onlt Metod III
-//		op.gustavFrigolin(SEED);
+		op.gustavFrigolin(SEED);
 	}
 }
