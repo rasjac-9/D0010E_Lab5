@@ -55,15 +55,21 @@ public class Optimize implements K {
 		int MAX_reg = M;
 		int MIN_reg = 1;
 		int TEST_reg = getHalf(MAX_reg, MIN_reg);
+
 		boolean beeanZero = false;
 		int oldCust = Integer.MAX_VALUE;
 		State PLEACE;
 
+		System.out.println(fro);
+
+		int i = 0;
+
 		while (true) {
 			PLEACE = Mood(fro, TEST_reg);
-
+			System.out.println(MIN_reg + ", " + MAX_reg + " | " + TEST_reg + " > " + PLEACE.getLostCustomer());
 //			testTvå(PLEACE.getLostCustomer());
 
+			// checks if to many regs used
 			if (PLEACE.getLostCustomer() == 0) {
 				beeanZero = true;
 				MAX_reg = TEST_reg;
@@ -83,6 +89,10 @@ public class Optimize implements K {
 				}
 				break;
 			}
+			i++;
+			if (i == 100) {
+				break;
+			}
 		}
 		return new int[] { TEST_reg, oldCust };
 	}
@@ -100,24 +110,22 @@ public class Optimize implements K {
 		Random random = new Random(seed);
 		int counter = 0;
 		int worstReg = 0;
-		
-		
+
 		while (true) {
-			
+
 			int[] twoReg = GardinStänger(random.nextInt());
 			System.out.println(twoReg[0]);
-			
+
 			if (twoReg[0] > worstReg) {
-				
+
 				testTre(counter, worstReg);
 				counter = 0;
 				worstReg = twoReg[0];
 			} else {
-				
+
 				counter++;
 			}
-			
-			
+
 			if (counter == 100) {
 				break;
 			}
@@ -139,45 +147,18 @@ public class Optimize implements K {
 		Optimize op = new Optimize();
 
 //		Run only Metod I
-//		int[] arg = { SEED, 13 };
-//		test = op.Mood(SEED, 167);
+		int[] arg = { SEED, 13 };
+		System.out.print(op.Mood(SEED, 2).getLostCustomer());
 
+		Random random = new Random(SEED);
 //		Run only Metod II
-//		int[] x = op.GardinStänger(SEED);
-//		System.out.println(x[0] + " || lost cuts: " + x[1]);
 
+//		for (int i = 0; i < 20; i++) {
+//			int[] x = op.GardinStänger(random.nextInt());
+//			System.out.println(x[0] + " || lost cuts: " + x[1]);
+//		}
+		
 //		Run onlt Metod III
-		op.gustavFrigolin(SEED);
+//		op.gustavFrigolin(SEED);
 	}
 }
-//
-
-//
-//	private void testTre(int a, int b) {
-//		System.out.println("Counter: " + a + "      " + "Best amount of cash registers:  " + b);
-//	}
-//
-//	private void testTvå(int a) {
-//		System.out.println("Missed customers: " + a);
-//	}
-//
-//	private void test1() {
-//		System.out.println("HERRO");
-//	}
-//}
-
-//if (oldCust < PLEACE.getLostCustomer()) {
-//	if (PLEACE.getLostCustomer() == 0) {
-//		BEEN_zero = true;
-//		oldCust = PLEACE.getLostCustomer();
-//
-//		MAX_reg = TEST_reg;
-//		TEST_reg = MIN_reg + getHalf(MAX_reg, MIN_reg);
-//		continue;
-//	} else if (BEEN_zero) {
-//		TEST_reg = MAX_reg;
-//	} else {
-//		TEST_reg = MIN_reg;
-//	}
-//
-//	break;
