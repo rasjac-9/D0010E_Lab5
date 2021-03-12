@@ -22,7 +22,6 @@ public class EventQueue {
 	 */
 	public void addEvent(Event event) {
 		eventList.add(event);
-		sortEvent();
 	}
 
 	/**
@@ -31,6 +30,7 @@ public class EventQueue {
 	 * @return - Event
 	 */
 	public Event getFirstEvent() {
+		sortEvent();
 		return eventList.get(0);
 	}
 
