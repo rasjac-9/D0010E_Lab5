@@ -8,7 +8,6 @@ import Lab5.generic.State;
 import Lab5.generic.EventQueue;
 import Lab5.event.StartEvent;
 
-
 /**
  * The method runs a simulation and stores the output values of the simulation
  * in an array
@@ -56,41 +55,30 @@ public class Optimize implements K {
 		int MIN_reg = 1;
 
 		int TEST_reg = getHalf(MAX_reg, MIN_reg);
+		int oldLostC = aSimRun(fro, M).getLostCustomer();
 
-		boolean beeanZero = false;
-		int oldLostC = Integer.MAX_VALUE;
 		State s;
 
 		while (true) {
 			s = aSimRun(fro, TEST_reg);
 //			testTvå(s.getLostCustomer());
-			
-			// checks if to many regs used
-			if (oldLostC == s.getLostCustomer() || MIN_reg == MAX_reg) {
-				if (beeanZero) {
-					TEST_reg = MAX_reg;
-					oldLostC = 0;
-				} else {
-					TEST_reg = MIN_reg;
-				}
+
+			if (MIN_reg + 1 == MAX_reg) {
+				TEST_reg = MAX_reg;
 				break;
 
-			} else if (s.getLostCustomer() == 0) {
-				beeanZero = true;
+			} else if (s.getLostCustomer() == oldLostC) {
 				MAX_reg = TEST_reg;
 				TEST_reg = MIN_reg + getHalf(MAX_reg, MIN_reg);
 
-			} else if (oldLostC > s.getLostCustomer()) {
-				oldLostC = s.getLostCustomer();
+			} else if (s.getLostCustomer() > oldLostC) {
 				MIN_reg = TEST_reg;
 				TEST_reg = MIN_reg + getHalf(MAX_reg, MIN_reg);
-
 			}
 		}
 		return new int[] { TEST_reg, oldLostC };
 	}
-	
-	
+
 	private int getHalf(int Max, int Min) {
 		int diff = Max - Min;
 		double test = diff / 2;
@@ -146,8 +134,7 @@ public class Optimize implements K {
 //		Run only Metod II
 		int[] x = op.findReg(SEED);
 
-		System.out
-				.println("Stängning sker tiden " + END_TIME + " och stophändelsen" + " sker tiden " + STOP_TIME + ".");
+		System.out.println("Stängning sker tiden " + END_TIME + " och stophändelsen sker tiden " + STOP_TIME + ".");
 
 		System.out.println("Minsta antal kassor som ger minimalt antal missade (" + x[1] + "): " + x[0]);
 
