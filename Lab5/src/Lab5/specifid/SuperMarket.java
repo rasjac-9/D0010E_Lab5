@@ -1,8 +1,12 @@
 
 package Lab5.specifid;
 
-import Lab5.generic.*;
-import Lab5.rand.*;
+import Lab5.generic.View;
+import Lab5.generic.State;
+import Lab5.generic.Event;
+
+import Lab5.rand.ExponentialRandomStream;
+import Lab5.rand.UniformRandomStream;
 
 /**
  * A Super Market store
@@ -20,24 +24,27 @@ public class SuperMarket extends State {
 	private ExponentialRandomStream expStream;
 	private UniformRandomStream ranStreamPick;
 
-	protected int emptyReg; // num. of empty cash registers
-	protected int totCustomer; // Total amount of customers that have tried to shop
-//	protected int lostCustomer; // Amount of customers turned away from store
-	protected int customerPayed; // Amount of customers that have payed
-	protected int inStore; // Current amoount of customers in the store
+	/*
+	 * ALL THE VARIABLES THAT THE STORE KEEPS TRACK OF
+	 */
+	protected int emptyReg; 		// num. of empty cash registers
+	protected int totCustomer; 		// Total amount of customers that have tried to shop
+	protected int customerPayed; 	// Amount of customers that have payed
+	protected int inStore; 			// Current amount of customers in the store
 
-	protected boolean openForBis; // Is store open or not
-	protected double emptyRegTime; // Time cash registers been empty
-	protected double inQueueTime; // Time some one have queued
+	protected boolean openForBis; 	// Is store open or not
+	protected double emptyRegTime; 	// Time cash registers been empty
+	protected double inQueueTime; 	// Time some one have queued
 	protected double lastEventTime; // The last time a event happens
-	public FIFO cashQueue; // The queue to cash registers
+	public FIFO cashQueue; 			// The queue to cash registers
 
-	// Integers to accepts given parameters
+	/*
+	 * ALL VARIABLES THAT ARE GIVEN TO THE CONSTRUCTOR
+	 */
 	public int SEED;
 	public int regLim;
 	public int customerLimit;
 
-	// Doubles to accept given parameters
 	public double Lamda;
 	public double pMin;
 	public double pMax;
@@ -47,27 +54,27 @@ public class SuperMarket extends State {
 	/**
 	 * Constructor that creates a super market
 	 * 
-	 * @param seed        - seed brings randomness
-	 * @param regLimit    - cash register limit
-	 * @param CLimit      - max amount of customer in store
+	 * @param seed     - seed brings randomness
+	 * @param regLimit - cash register limit
+	 * @param CLimit   - max amount of customer in store
 	 * 
-	 * @param lambda      - arrival difference signifier
-	 * @param pMin        - minimum time to pick items
-	 * @param pMax        - maximum time to pick items
-	 * @param kMin        - minimum time to pay for items
-	 * @param kMax        - maximum time to pay for items
-	 * @param output      - boolean if print to console shall happen or not
+	 * @param lambda   - arrival difference signifier
+	 * @param pMin     - minimum time to pick items
+	 * @param pMax     - maximum time to pick items
+	 * @param kMin     - minimum time to pay for items
+	 * @param kMax     - maximum time to pay for items
+	 * @param output   - boolean if print to console shall happen or not
 	 */
 	@SuppressWarnings("deprecation")
 	public SuperMarket(int seed, int regLimit, int CLimit, double lambda, double pMin, double pMax, double kMin,
 			double kMax, boolean output) {
 
-		// the given number of integer parameters
+		// The given number of integer parameters
 		this.SEED = seed;
 		this.regLim = regLimit;
 		this.customerLimit = CLimit;
 
-		// the given number of double parameters
+		// The given number of double parameters
 		this.Lamda = lambda;
 		this.pMin = pMin;
 		this.pMax = pMax;
@@ -79,18 +86,17 @@ public class SuperMarket extends State {
 		ranStreamPick = new UniformRandomStream(pMin, pMax, SEED);
 		expStream = new ExponentialRandomStream(Lamda, SEED);
 
-		// store is opened
-		openForBis = true;
-		emptyReg = regLim;
-		cashQueue = new FIFO();
+		openForBis = true; // store is opened
+		emptyReg = regLim; // sets amount of empty registers
+		cashQueue = new FIFO(); // opens the register queue
 
-		// changes if we print to console or not
+		// Changes if we print to console or not
 		if (output) {
-			super.eyeOfModor = new SuperMarketConsole(this);
+			super.v = new SuperMarketConsole(this);
 		} else {
-			super.eyeOfModor = new View();
+			super.v = new View();
 		}
-		this.addObserver(eyeOfModor);
+		this.addObserver(v);
 	}
 
 	/*************************************************************************************************************************
@@ -204,7 +210,7 @@ public class SuperMarket extends State {
 	}
 
 	/**
-	 * Creats a free cash register
+	 * Creates a free cash register
 	 */
 	public void freeCashRegister() {
 		if (emptyReg != regLim) {
@@ -283,12 +289,12 @@ public class SuperMarket extends State {
 			}
 		}
 
-		// Vounts how much time customers spends in queue
+		// Counts how much time customers spends in queue
 		if (!cashQueue.isEmpty()) {
 			inQueueTime += (event.getTime() - currentTime) * cashQueue.getSize();
 		}
 
-		// Uppdates current time
+		// Updates current time
 		currentTime = event.getTime();
 
 		//

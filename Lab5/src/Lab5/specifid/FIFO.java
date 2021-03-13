@@ -1,11 +1,10 @@
 
 package Lab5.specifid;
 
-import java.util.ArrayList;
-
 import Lab5.generic.Event;
 
 import java.util.NoSuchElementException;
+import java.util.ArrayList;
 
 /**
  * The queue to the cash registers
@@ -17,7 +16,9 @@ import java.util.NoSuchElementException;
  *
  */
 public class FIFO {
+
 	private ArrayList<Event> cashQueue = new ArrayList<Event>();
+	
 	public int queueCounter = 0;
 
 	/**
