@@ -1,3 +1,4 @@
+
 package Lab5.generic;
 
 /**
@@ -11,9 +12,10 @@ package Lab5.generic;
  */
 public class Event {
 	protected int ID;
+	protected double time;
+
 	protected State s;
 	protected String name;
-	protected double time;
 	protected EventQueue eq;
 
 	/**
@@ -27,7 +29,7 @@ public class Event {
 	 */
 	public void effect() {
 	}
-	
+
 	/**
 	 * Special form of what event do
 	 * 
@@ -62,7 +64,12 @@ public class Event {
 	public String getName() {
 		return name;
 	}
-	
+
+	/**
+	 * Returns the state in event
+	 * 
+	 * @return - State
+	 */
 	public State getEventState() {
 		return s;
 	};

@@ -13,27 +13,36 @@ import java.util.ArrayList;
  *
  */
 public class EventQueue {
+
 	private ArrayList<Event> eventList = new ArrayList<>();
 
 	/**
 	 * Adds event to the queue, and sorts them
 	 * 
-	 * @param event
+	 * @param e - Event
 	 */
 	public void addEvent(Event e) {
 
+		// if list is empty add directly else sees where to add
 		if (eventList.size() > 1) {
 			boolean beenPlaced = false;
+
+			// Goes through the list
 			for (int i = 0; i < eventList.size(); i++) {
+
+				// if arg´s time smaller then current event list
 				if (eventList.get(i).getTime() > e.getTime()) {
 					beenPlaced = true;
 					eventList.add(i, e);
 					break;
 				}
 			}
+
+			// if the loops fails to add event adds event
 			if (!beenPlaced) {
 				eventList.add(e);
 			}
+
 		} else {
 			eventList.add(e);
 		}
@@ -49,7 +58,7 @@ public class EventQueue {
 	}
 
 	/**
-	 * removes the first event in the queue and sorts the queue after
+	 * Removes the first event in the queue and sorts the queue after
 	 */
 	public void removeFirstEvent() {
 		if (!isEmpty()) {
