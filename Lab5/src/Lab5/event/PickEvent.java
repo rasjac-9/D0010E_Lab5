@@ -4,6 +4,7 @@ package Lab5.event;
 import Lab5.generic.Event;
 import Lab5.generic.State;
 import Lab5.generic.EventQueue;
+
 import Lab5.specifid.SuperMarket;
 
 /**
@@ -18,7 +19,7 @@ import Lab5.specifid.SuperMarket;
 public class PickEvent extends Event {
 
 	/**
-	 * Constructor
+	 * Constructor creates a pick event
 	 * 
 	 * @param eventQ - EventQueue
 	 * @param sm     - SuperMarket
