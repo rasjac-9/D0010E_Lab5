@@ -3,10 +3,11 @@ package Lab5.Main;
 
 import java.util.Random;
 
-import Lab5.event.StartEvent;
 import Lab5.generic.Event;
-import Lab5.generic.EventQueue;
 import Lab5.generic.State;
+import Lab5.generic.EventQueue;
+import Lab5.event.StartEvent;
+
 
 /**
  * The method runs a simulation and stores the output values of the simulation
@@ -24,11 +25,10 @@ public class Optimize implements K {
 	protected Event e;
 
 	public Optimize() {
-		// TODO Auto-generated constructor stub
 	}
 
 	// Metod I
-	public State Mood(int fro, int reg) {
+	private State aSimRun(int fro, int reg) {
 		State s;
 		eq = new EventQueue();
 
@@ -51,55 +51,47 @@ public class Optimize implements K {
 	}
 
 	// Metod II
-	public int[] GardinStänger(int fro) {
+	private int[] findReg(int fro) {
 		int MAX_reg = M;
 		int MIN_reg = 1;
-		
+
 		int TEST_reg = getHalf(MAX_reg, MIN_reg);
 
 		boolean beeanZero = false;
-		int oldCust = Integer.MAX_VALUE;
-		State PLEACE;
-
-
-		int i = 0;
+		int oldLostC = Integer.MAX_VALUE;
+		State s;
 
 		while (true) {
-			PLEACE = Mood(fro, TEST_reg);
-//			testTvå(PLEACE.getLostCustomer());
-
+			s = aSimRun(fro, TEST_reg);
+//			testTvå(s.getLostCustomer());
+			
 			// checks if to many regs used
-			if (oldCust == PLEACE.getLostCustomer() || MIN_reg == MAX_reg) {
+			if (oldLostC == s.getLostCustomer() || MIN_reg == MAX_reg) {
 				if (beeanZero) {
 					TEST_reg = MAX_reg;
-					oldCust = 0;
+					oldLostC = 0;
 				} else {
 					TEST_reg = MIN_reg;
 				}
 				break;
-				
-			}else if (PLEACE.getLostCustomer() == 0) {
+
+			} else if (s.getLostCustomer() == 0) {
 				beeanZero = true;
 				MAX_reg = TEST_reg;
 				TEST_reg = MIN_reg + getHalf(MAX_reg, MIN_reg);
 
-			} else if (oldCust > PLEACE.getLostCustomer()) {
-				oldCust = PLEACE.getLostCustomer();
+			} else if (oldLostC > s.getLostCustomer()) {
+				oldLostC = s.getLostCustomer();
 				MIN_reg = TEST_reg;
 				TEST_reg = MIN_reg + getHalf(MAX_reg, MIN_reg);
 
-			} 
-			
-			
-			i++;
-			if (i == 100) {
-				break;
 			}
 		}
-		return new int[] { TEST_reg, oldCust };
+		return new int[] { TEST_reg, oldLostC };
 	}
-
-	public int getHalf(int Max, int Min) {
+	
+	
+	private int getHalf(int Max, int Min) {
 		int diff = Max - Min;
 		double test = diff / 2;
 		int anser = (int) Math.floor(test);
@@ -108,18 +100,18 @@ public class Optimize implements K {
 
 	// Andres är obetald praktikan på bolaget och det är hans uppgift att optimera
 	// butikerna
-	public int gustavFrigolin(int seed) {
+	private int findWorstReg(int seed) {
 		Random random = new Random(seed);
 		int counter = 0;
 		int worstReg = 0;
 
 		while (true) {
 
-			int[] twoReg = GardinStänger(random.nextInt());
+			int[] twoReg = findReg(random.nextInt());
 
 			if (twoReg[0] > worstReg) {
 
-				testTre(counter, worstReg);
+//				testTre(counter, worstReg);
 				counter = 0;
 				worstReg = twoReg[0];
 			} else {
@@ -131,7 +123,7 @@ public class Optimize implements K {
 				break;
 			}
 		}
-		testTre(counter, worstReg);
+//		testTre(counter, worstReg);
 		return worstReg;
 	}
 
@@ -139,9 +131,9 @@ public class Optimize implements K {
 //		System.out.println("Missed customers: " + a);
 //	}
 
-	private void testTre(int a, int b) {
-		System.out.println("Counter: " + a + "      " + "Best amount of cash registers:  " + b);
-	}
+//	private void testTre(int a, int b) {
+//		System.out.println("Counter: " + a + "      " + "Best amount of cash registers:  " + b);
+//	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -152,15 +144,14 @@ public class Optimize implements K {
 //		System.out.print(op.Mood(SEED, 2).getLostCustomer());
 
 //		Run only Metod II
-		int[] x = op.GardinStänger(SEED);
+		int[] x = op.findReg(SEED);
 
-		System.out.println("Stängning sker tiden " + END_TIME + " och stophändelsen" +
-				" sker tiden " + STOP_TIME + ".");
+		System.out
+				.println("Stängning sker tiden " + END_TIME + " och stophändelsen" + " sker tiden " + STOP_TIME + ".");
 
-		System.out.println("Minsta antal kassor som ger minimalt antal missade (" +
-				x[1] + "): " + x[0]);
-		
+		System.out.println("Minsta antal kassor som ger minimalt antal missade (" + x[1] + "): " + x[0]);
+
 //		Run onlt Metod III
-		//op.gustavFrigolin(SEED);
+		// op.gustavFrigolin(SEED);
 	}
 }

@@ -20,8 +20,23 @@ public class EventQueue {
 	 * 
 	 * @param event
 	 */
-	public void addEvent(Event event) {
-		eventList.add(event);
+	public void addEvent(Event e) {
+
+		if (eventList.size() > 1) {
+			boolean beenPlaced = false;
+			for (int i = 0; i < eventList.size(); i++) {
+				if (eventList.get(i).getTime() > e.getTime()) {
+					beenPlaced = true;
+					eventList.add(i, e);
+					break;
+				}
+			}
+			if (!beenPlaced) {
+				eventList.add(e);
+			}
+		} else {
+			eventList.add(e);
+		}
 	}
 
 	/**
@@ -30,34 +45,7 @@ public class EventQueue {
 	 * @return - Event
 	 */
 	public Event getFirstEvent() {
-		sortEvent();
 		return eventList.get(0);
-	}
-
-	/**
-	 * Sorts the events depending on time
-	 */
-	public void sortEvent() {
-
-		if (eventList.size() > 1) { // needs to hold more than 2 objects to sort
-
-			/*
-			 * e.g. arraylist [5,3,8,6] first loop: if (5 > 3) {swap place, [3,5,8,6]} if (5
-			 * > 8) if (5 > 6) second loop: if (8 > 6) {swap place [3,5,6,8]}
-			 */
-			for (int i = 1; i < eventList.size(); i++) {
-				for (int j = 0; j < eventList.size() - 1; j++) {
-
-					if (eventList.get(j).getTime() > eventList.get(i).getTime()) {
-						Event eventIndexI = eventList.get(i);
-						Event eventIndexJ = eventList.get(j);
-
-						eventList.set(j, eventIndexI);
-						eventList.set(i, eventIndexJ);
-					}
-				}
-			}
-		}
 	}
 
 	/**
