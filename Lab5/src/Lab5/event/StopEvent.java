@@ -23,8 +23,6 @@ public class StopEvent extends Event {
 	 * @param stopTime - Event time
 	 */
 	public StopEvent(State sm, double stopTime) {
-		
-		// TODO Auto-generated constructor stub
 		s = sm;
 		time = stopTime;
 		name = "Stop";

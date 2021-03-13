@@ -45,7 +45,6 @@ public class PickEvent extends Event {
 		} catch (ArithmeticException e) {
 			((SuperMarket) s).cashQueue.addToFIFO(this);
 		}
-
 	}
 
 	/**

@@ -17,7 +17,7 @@ import Lab5.specifid.SuperMarket;
 public class CloseEvent extends Event {
 
 	/**
-	 * Constructor
+	 * Constructor that creates a closing event
 	 * 
 	 * @param sm        - SuperMarket
 	 * @param closeTime - Event time

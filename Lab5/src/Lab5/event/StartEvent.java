@@ -55,6 +55,6 @@ public class StartEvent extends Event {
 		((SuperMarket) s).viewUpdate(this);
 		eq.addEvent(new ArrivalEvent(eq, s, 0));
 		eq.addEvent(new CloseEvent(s, closeTime));
-		eq.addEvent(new StopEvent(eq, s, stopTime));
+		eq.addEvent(new StopEvent(s, stopTime));
 	}
 }

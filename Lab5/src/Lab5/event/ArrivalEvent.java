@@ -40,13 +40,12 @@ public class ArrivalEvent extends Event {
 		((SuperMarket) s).viewUpdate(this);
 
 		if (((SuperMarket) s).getOpenForBis() && ((SuperMarket) s).addCustomer()) {
-			eq.addEvent(new PickEvent(eq, s, ID));
+			eq.addEvent(new PickEvent(eq, (SuperMarket) s, ID));
 			eq.addEvent(new ArrivalEvent(eq, (SuperMarket) s, ID + 1));
 
 		} else if (((SuperMarket) s).getOpenForBis() && !((SuperMarket) s).addCustomer()) {
 			((SuperMarket) s).addLostCustomer();
 			eq.addEvent(new ArrivalEvent(eq, (SuperMarket) s, ID + 1));
-
 		}
 	}
 }
