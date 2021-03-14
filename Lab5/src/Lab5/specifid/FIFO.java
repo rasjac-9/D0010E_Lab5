@@ -76,7 +76,6 @@ public class FIFO {
 		} else {
 			throw new NoSuchElementException();
 		}
-
 	}
 
 	/**

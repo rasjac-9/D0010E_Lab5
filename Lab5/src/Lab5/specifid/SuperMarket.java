@@ -41,15 +41,15 @@ public class SuperMarket extends State {
 	/*
 	 * ALL VARIABLES THAT ARE GIVEN TO THE CONSTRUCTOR
 	 */
-	public int SEED;
-	public int regLim;
-	public int customerLimit;
+	protected int SEED;
+	protected int regLim;
+	protected int customerLimit;
 
-	public double Lamda;
-	public double pMin;
-	public double pMax;
-	public double kMin;
-	public double kMax;
+	protected double Lamda;
+	protected double pMin;
+	protected double pMax;
+	protected double kMin;
+	protected double kMax;
 
 	/**
 	 * Constructor that creates a super market

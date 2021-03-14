@@ -23,11 +23,20 @@ public class Optimize implements K {
 	protected EventQueue eq;
 	protected Event e;
 
+	/**
+	 * Constructor
+	 */
 	public Optimize() {
 	}
 
-	// Metod I
-	private State aSimRun(int fro, int reg) {
+	/**
+	 * Metod I Runs a simulation
+	 * 
+	 * @param fro - the seed
+	 * @param reg - amount of cash registers
+	 * @return - the end state
+	 */
+	public State aSimRun(int fro, int reg) {
 		State s;
 		eq = new EventQueue();
 
@@ -49,8 +58,14 @@ public class Optimize implements K {
 		return s;
 	}
 
-	// Metod II
-	private int[] findReg(int fro) {
+	/**
+	 * Metod II Finds the least amount of cash registers that gives the least amount
+	 * of lost customers
+	 * 
+	 * @param fro - the seed
+	 * @return test_reg, oldLostC
+	 */
+	public int[] findReg(int fro) {
 		int MAX_reg = M;
 		int MIN_reg = 1;
 
@@ -61,7 +76,6 @@ public class Optimize implements K {
 
 		while (true) {
 			s = aSimRun(fro, TEST_reg);
-//			testTvå(s.getLostCustomer());
 
 			if (MIN_reg + 1 == MAX_reg) {
 				TEST_reg = MAX_reg;
@@ -86,8 +100,13 @@ public class Optimize implements K {
 		return anser;
 	}
 
-	// Andres är obetald praktikan på bolaget och det är hans uppgift att optimera
-	// butikerna
+	/**
+	 * Metod III Runs findReg() until the highest amount of register haven't change
+	 * for 100 turns
+	 * 
+	 * @param seed - the beginning seed to start the random generator
+	 * @return worstReg - highest amount of registers found
+	 */
 	private int findWorstReg(int seed) {
 		Random random = new Random(seed);
 		int counter = 0;
@@ -98,12 +117,10 @@ public class Optimize implements K {
 			int[] twoReg = findReg(random.nextInt());
 
 			if (twoReg[0] > worstReg) {
-
-//				testTre(counter, worstReg);
 				counter = 0;
 				worstReg = twoReg[0];
-			} else {
 
+			} else {
 				counter++;
 			}
 
@@ -111,34 +128,44 @@ public class Optimize implements K {
 				break;
 			}
 		}
-//		testTre(counter, worstReg);
 		return worstReg;
 	}
 
-//	private void testTvå(int a) {
-//		System.out.println("Missed customers: " + a);
-//	}
-
-//	private void testTre(int a, int b) {
-//		System.out.println("Counter: " + a + "      " + "Best amount of cash registers:  " + b);
-//	}
-
+	/**
+	 * Main method starts program and runs the different methods
+	 * 
+	 * @param args - 1 = Metod I, 2 = Metod II, 3 = Metod III
+	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Optimize op = new Optimize();
 
-//		Run only Metod I
-//		int[] arg = { SEED, 13 };
-//		System.out.print(op.Mood(SEED, 2).getLostCustomer());
+		if (args.length >= 1) {
+			switch (args[0]) {
+			case "1":
+				State s = op.aSimRun(SEED, 2);
+				System.out.println("Metod I finished amount of lost customers: " + s.getLostCustomer());
+				break;
+			case "2":
+				int[] x = op.findReg(SEED);
 
-//		Run only Metod II
-		int[] x = op.findReg(SEED);
+				System.out.println(
+						"Stängning sker tiden " + END_TIME + " och stophändelsen sker tiden " + STOP_TIME + ".");
+				System.out.println("Minsta antal kassor som ger minimalt antal missade (" + x[1] + "): " + x[0]);
+				break;
+			case "3":
+				op.findWorstReg(SEED);
+				break;
+			default:
+				System.out.println("Sorry your input did not respond to a method please try igen.");
+				break;
+			}
 
-		System.out.println("Stängning sker tiden " + END_TIME + " och stophändelsen sker tiden " + STOP_TIME + ".");
+		} else {
+			int[] x = op.findReg(SEED);
 
-		System.out.println("Minsta antal kassor som ger minimalt antal missade (" + x[1] + "): " + x[0]);
-
-//		Run onlt Metod III
-		// op.gustavFrigolin(SEED);
+			System.out.println("Stängning sker tiden " + END_TIME + " och stophändelsen sker tiden " + STOP_TIME + ".");
+			System.out.println("Minsta antal kassor som ger minimalt antal missade (" + x[1] + "): " + x[0]);
+		}
 	}
 }
