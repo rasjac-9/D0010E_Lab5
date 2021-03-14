@@ -4,6 +4,7 @@ package Lab5.event;
 import Lab5.generic.Event;
 import Lab5.generic.State;
 import Lab5.generic.EventQueue;
+
 import Lab5.specifid.SuperMarket;
 
 /**
@@ -18,7 +19,7 @@ import Lab5.specifid.SuperMarket;
 public class ArrivalEvent extends Event {
 
 	/**
-	 * Constructor
+	 * Constructor creates a arrival event
 	 * 
 	 * @param eventQ - EventQueue
 	 * @param sm     - SuperMarket
@@ -28,6 +29,7 @@ public class ArrivalEvent extends Event {
 		eq = eventQ;
 		s = sm;
 		ID = i;
+		
 		time = ((SuperMarket) sm).getArrivalTime();
 		name = "Ankomst";
 	}
@@ -40,13 +42,12 @@ public class ArrivalEvent extends Event {
 		((SuperMarket) s).viewUpdate(this);
 
 		if (((SuperMarket) s).getOpenForBis() && ((SuperMarket) s).addCustomer()) {
-			eq.addEvent(new PickEvent(eq, s, ID));
+			eq.addEvent(new PickEvent(eq, (SuperMarket) s, ID));
 			eq.addEvent(new ArrivalEvent(eq, (SuperMarket) s, ID + 1));
 
 		} else if (((SuperMarket) s).getOpenForBis() && !((SuperMarket) s).addCustomer()) {
 			((SuperMarket) s).addLostCustomer();
 			eq.addEvent(new ArrivalEvent(eq, (SuperMarket) s, ID + 1));
-
 		}
 	}
 }

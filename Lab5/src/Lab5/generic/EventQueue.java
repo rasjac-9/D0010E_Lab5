@@ -13,16 +13,39 @@ import java.util.ArrayList;
  *
  */
 public class EventQueue {
+
 	private ArrayList<Event> eventList = new ArrayList<>();
 
 	/**
 	 * Adds event to the queue, and sorts them
 	 * 
-	 * @param event
+	 * @param e - Event
 	 */
-	public void addEvent(Event event) {
-		eventList.add(event);
-		sortEvent();
+	public void addEvent(Event e) {
+
+		// if list is empty add directly else sees where to add
+		if (eventList.size() > 1) {
+			boolean beenPlaced = false;
+
+			// Goes through the list
+			for (int i = 0; i < eventList.size(); i++) {
+
+				// if arg´s time smaller then current event list
+				if (eventList.get(i).getTime() > e.getTime()) {
+					beenPlaced = true;
+					eventList.add(i, e);
+					break;
+				}
+			}
+
+			// if the loops fails to add event adds event
+			if (!beenPlaced) {
+				eventList.add(e);
+			}
+
+		} else {
+			eventList.add(e);
+		}
 	}
 
 	/**
@@ -35,38 +58,11 @@ public class EventQueue {
 	}
 
 	/**
-	 * Sorts the events depending on time
-	 */
-	public void sortEvent() {
-
-		if (eventList.size() > 1) { // needs to hold more than 2 objects to sort
-
-			/*
-			 * e.g. arraylist [5,3,8,6] first loop: if (5 > 3) {swap place, [3,5,8,6]} if (5
-			 * > 8) if (5 > 6) second loop: if (8 > 6) {swap place [3,5,6,8]}
-			 */
-			for (int i = 1; i < eventList.size(); i++) {
-				for (int j = 0; j < eventList.size() - 1; j++) {
-
-					if (eventList.get(j).getTime() > eventList.get(i).getTime()) {
-						Event eventIndexI = eventList.get(i);
-						Event eventIndexJ = eventList.get(j);
-
-						eventList.set(j, eventIndexI);
-						eventList.set(i, eventIndexJ);
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * removes the first event in the queue and sorts the queue after
+	 * Removes the first event in the queue and sorts the queue after
 	 */
 	public void removeFirstEvent() {
 		if (!isEmpty()) {
 			eventList.remove(0);
-			sortEvent();
 		}
 	}
 

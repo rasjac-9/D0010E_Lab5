@@ -3,6 +3,7 @@ package Lab5.event;
 
 import Lab5.generic.Event;
 import Lab5.generic.EventQueue;
+
 import Lab5.specifid.SuperMarket;
 
 /**
@@ -55,6 +56,6 @@ public class StartEvent extends Event {
 		((SuperMarket) s).viewUpdate(this);
 		eq.addEvent(new ArrivalEvent(eq, s, 0));
 		eq.addEvent(new CloseEvent(s, closeTime));
-		eq.addEvent(new StopEvent(eq, s, stopTime));
+		eq.addEvent(new StopEvent(s, stopTime));
 	}
 }

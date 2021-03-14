@@ -13,14 +13,13 @@ import java.util.Observable;
  *
  */
 @SuppressWarnings("deprecation")
-public class State extends Observable{
+public class State extends Observable {
 	protected boolean runSim = true;
 	protected double currentTime = 0d;
-	protected EventQueue eq;
-	protected View eyeOfModor;
-	
 	protected int lostCustomer; // Amount of customers turned away from store
-	
+
+	protected EventQueue eq;
+	protected View v;
 
 	/**
 	 * Constructor
@@ -34,7 +33,7 @@ public class State extends Observable{
 	public void stopSim() {
 		runSim = false;
 	}
-	
+
 	/**
 	 * returns runSim
 	 * 
@@ -52,7 +51,7 @@ public class State extends Observable{
 	public void setCurrentTime(double t) {
 		this.currentTime = t;
 	}
-	
+
 	/**
 	 * returns the current time
 	 * 
@@ -61,7 +60,12 @@ public class State extends Observable{
 	public double getCurrentTime() {
 		return currentTime;
 	}
-	
+
+	/**
+	 * returns amount of lost customer
+	 * 
+	 * @return - int lostCustomer
+	 */
 	public int getLostCustomer() {
 		return lostCustomer;
 	}

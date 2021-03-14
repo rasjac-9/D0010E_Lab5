@@ -50,9 +50,14 @@ public class RunSim implements K {
 		return s;
 	}
 
+	/**
+	 * Starts a simulation
+	 * 
+	 * @param args - is ignored
+	 */
 	public static void main(String[] args) {
 		RunSim rs = new RunSim();
-		rs.run(13);
+		rs.run(2);
 	}
 
 }
