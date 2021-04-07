@@ -66,26 +66,32 @@ public class Optimize implements K {
 	 * @return test_reg, oldLostC
 	 */
 	public int[] findReg(int fro) {
-		int MAX_reg = M;
-		int MIN_reg = 1;
+		int MAX_reg = M; // Max antal kassor
+		int MIN_reg = 1; // Minsta antalet kassor
 
-		int TEST_reg = getHalf(MAX_reg, MIN_reg);
-		int oldLostC = aSimRun(fro, M).getLostCustomer();
+		int TEST_reg = getHalf(MAX_reg, MIN_reg); // Hämtar tallet mellan MIN_reg och MAX_reg
+		int oldLostC = aSimRun(fro, M).getLostCustomer(); // Minsta antallet kunder som går förlorade
 
 		State s;
 
 		while (true) {
-			s = aSimRun(fro, TEST_reg);
+			s = aSimRun(fro, TEST_reg); // Kör simulering med TEST_reg som antal kassor
 
+			// Ifall MIN_reg & MAX_reg är ett steg från varandra så har den hittat de
+			// optimala antalet kassor
 			if (MIN_reg + 1 == MAX_reg) {
 				TEST_reg = MAX_reg;
 				break;
-
-			} else if (s.getLostCustomer() == oldLostC) {
+			}
+			// Ifall förlorade kunder inte ändras så har man hittat en efektivare mängd
+			// kassor och byter MAx_reg till TEST_reg
+			else if (s.getLostCustomer() == oldLostC) {
 				MAX_reg = TEST_reg;
 				TEST_reg = MIN_reg + getHalf(MAX_reg, MIN_reg);
-
-			} else if (s.getLostCustomer() > oldLostC) {
+			}
+			// Är antalet förlorade kunder högre en antalet gamlakunder så är mängden kassor
+			// oefektiva och man behöver öka antalet kassor
+			else if (s.getLostCustomer() > oldLostC) {
 				MIN_reg = TEST_reg;
 				TEST_reg = MIN_reg + getHalf(MAX_reg, MIN_reg);
 			}
@@ -93,6 +99,7 @@ public class Optimize implements K {
 		return new int[] { TEST_reg, oldLostC };
 	}
 
+	// Tar 2 ints retunerar halften av differensen
 	private int getHalf(int Max, int Min) {
 		int diff = Max - Min;
 		double test = diff / 2;

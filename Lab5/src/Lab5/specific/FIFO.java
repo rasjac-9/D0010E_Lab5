@@ -1,5 +1,5 @@
 
-package Lab5.specifid;
+package Lab5.specific;
 
 import Lab5.generic.Event;
 
