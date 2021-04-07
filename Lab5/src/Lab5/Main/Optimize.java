@@ -107,10 +107,11 @@ public class Optimize implements K {
 	 * @param seed - the beginning seed to start the random generator
 	 * @return worstReg - highest amount of registers found
 	 */
-	private int findWorstReg(int seed) {
+	private int[] findWorstReg(int seed) {
 		Random random = new Random(seed);
 		int counter = 0;
 		int worstReg = 0;
+		int eke = 0;
 
 		while (true) {
 
@@ -125,10 +126,11 @@ public class Optimize implements K {
 			}
 
 			if (counter == 100) {
+				eke = twoReg[1];
 				break;
 			}
 		}
-		return worstReg;
+		return new int[]{worstReg,eke};
 	}
 
 	/**
@@ -148,13 +150,16 @@ public class Optimize implements K {
 				break;
 			case "2":
 				int[] x = op.findReg(SEED);
-
+				System.out.println("Metod 2: ");
 				System.out.println(
 						"Stängning sker tiden " + END_TIME + " och stophändelsen sker tiden " + STOP_TIME + ".");
 				System.out.println("Minsta antal kassor som ger minimalt antal missade (" + x[1] + "): " + x[0]);
 				break;
 			case "3":
-				op.findWorstReg(SEED);
+				int[] kek = op.findWorstReg(SEED);
+				System.out.println(
+						"Stängning sker tiden " + END_TIME + " och stophändelsen sker tiden " + STOP_TIME + ".");
+				System.out.println("Minsta antal kassor som ger minimalt antal missade (" + kek[1] + "): " + kek[0]);
 				break;
 			default:
 				System.out.println("Sorry your input did not respond to a method please try igen.");
