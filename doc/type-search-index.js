@@ -1,1 +1,0 @@
-typeSearchIndex = [{"l":"All Classes","u":"allclasses-index.html"},{"p":"Lab5.Main","l":"RunSim"}];updateSearchResults();
